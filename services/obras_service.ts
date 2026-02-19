@@ -8,17 +8,7 @@ export async function ativarAtracao (id: string, data: any ) {
         }
     }
 
-    /*
-    const obrasCount = await prisma.obra.count({ // quantas obras estão vinculadas ao id da atracao que foi passado
-        where: { atracaoId: id }
-    })
 
-    if ( obrasCount === 0 ) {
-        throw {
-            message: ""
-        }
-    }
-    */
 
     return prisma.atracao.update({
         where: { id },
