@@ -1,0 +1,5 @@
+Adicionar a opção de mudar de referência na tabela obra, ou seja, que elas referenciem outra atração
+    Adicionar a opção de remover atração com obras
+
+Adicionar a opção de mostrar todas as obras vinculadas a uma atração
+

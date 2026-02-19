@@ -1,0 +1,47 @@
+npx prisma init -> inicializacao do prisma
+npx prisma migrate dev --name <nome da migracao> -> envia as alteracoes para o banco in cloud
+npx prisma migrate deploy -> caso tenha perdido os dados do banco, esse comando irá restaurar as mudanças realizadas, caso ainda haja historico
+npx prisma generate
+
+Connect your app to Neon with a single command:
+    npx neonctl@latest init
+
+ATRAÇÃO
+{
+  "id": 1,
+  "name": "Museu Théo Brandão",
+  "description": "O Museu Théo Brandão de Antropologia e Folclore é um museu brasileiro localizado na Avenida da Paz 1490, no bairro de Jaraguá em Maceió, capital do estado de Alagoas.",
+}
+
+OBRA 
+{
+  "id": 1,
+  "attraction_id": 1,
+  "title": "Estátua de Anúbis",
+  "author": "Desconhecido",
+  "description": "Escultura em basalto, 500 a.C."
+}
+
+[
+  {
+    "id": "9c07b788-e74b-49b0-98a1-c2236ac9bedd",
+    "title": "Foto de Maribondo",
+    "description": "Foto de Maribondo em meados de 1976",
+    "autor": "desconhecido",
+    "atracaoId": "b09e7279-d084-407c-8994-9f866fcf8344"
+  },
+  {
+    "id": "0bd7ec64-efda-4c92-8a7f-4874f56252e1",
+    "title": "Foto de Maribondo",
+    "description": "Foto de Maribondo em meados de 2000",
+    "autor": "desconhecido",
+    "atracaoId": "b09e7279-d084-407c-8994-9f866fcf8344"
+  },
+  {
+    "id": "77c95531-2e88-4a83-938f-d3592fff7603",
+    "title": "Fall",
+    "description": "Escultura que mostra a queda do imperador",
+    "autor": "desconhecido",
+    "atracaoId": "ba5c3e9a-c436-4a8a-8a40-5c85008af9c1"
+  }
+]
