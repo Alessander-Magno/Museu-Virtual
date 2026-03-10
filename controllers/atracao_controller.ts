@@ -75,7 +75,7 @@ export async function alterarInfoAtracaoCtrl ( request: Request, { params }: Par
 
         const body = await request.json();
 
-        const atracaoAlterada = await alterarInfoAtracaoSer( atracaoId, body);
+        const atracaoAlterada = await alterarInfoAtracaoSer( atracaoId, body );
 
         return NextResponse.json( atracaoAlterada );
     } catch ( error: any ) {

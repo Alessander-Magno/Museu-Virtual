@@ -1,7 +1,7 @@
 import { prisma } from "@/utils/prisma";
 import { NextResponse } from "next/server";
 
-// nivel 04
+// nivel 02
 //  GET, PUT e DELETE -> obras 
 
 interface Params {
