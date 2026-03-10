@@ -1,0 +1,28 @@
+| Status | Use quando…               |
+| ------ | ------------------------- |
+| 400    | entrada inválida          |
+| 401    | não autenticado           |
+| 403    | sem permissão             |
+| 404    | não encontrado            |
+| 409    | conflito de regra         |
+| 422    | regra impede ação         |
+| 500    | erro interno (controller) |
+
+
+Pergunte:
+
+❓ “O recurso existe?”
+
+❌ não → 404
+
+❓ “O usuário pode fazer isso?”
+
+❌ não → 403
+
+❓ “O pedido é válido?”
+
+❌ não → 400
+
+❓ “O estado atual permite isso?”
+
+❌ não → 409 ou 422

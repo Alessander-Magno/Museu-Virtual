@@ -1,4 +1,4 @@
-import { criarAtracaoCtrl, mostrarAtracoesCtrl } from "@/controllers/atracao";
+import { criarAtracaoCtrl, mostrarAtracoesCtrl } from "@/controllers/atracao_controller";
 
 // nivel 01
 //  GET e POST -> atracoes   

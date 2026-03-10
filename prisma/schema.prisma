@@ -13,9 +13,13 @@ datasource db {
   provider = "postgresql"
 }
 
+// npx prisma migrate dev - para alterações
+// npx prisma migrate reset - para resetar
+// npx prisma generate - regenera o client prisma
+
 model Atracao {
   id                String    @id   @default(uuid())
-  title             String
+  nome              String
   description       String
   disponibilidade   Boolean         @default(false)
 
@@ -27,7 +31,7 @@ model Obra {
   title             String
   description       String
   autor             String          @default("desconhecido")
-  atracaoId          String
+  atracaoId         String
   
   atracao           Atracao @relation(fields: [atracaoId], references: [id])
 }
