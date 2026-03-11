@@ -1,0 +1,48 @@
+.container {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+}
+
+.navigation {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.navLink {
+  text-decoration: none;
+}
+
+.navButton {
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  background-color: #265d9c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navButton:hover {
+  background-color: #0051b3;
+}
+
+.navButton:focus {
+  outline: 2px solid #0070f3;
+  outline-offset: 2px;
+}
+
+.title {
+  font-family: 'Times New Roman', serif;
+  font-size: 3.5rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  display: inline-block;
+}
