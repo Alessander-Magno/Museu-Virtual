@@ -19,13 +19,23 @@ export async function mostrarAtracoesSer () {
 export async function mostrarAtracaoSer ( atracaoId: string ) {
     const atracao = await prisma.atracao.findUnique({
       where: { id: atracaoId, }, // ids correspondentes
-      // include: { obras: true, }, // inclua as obras desta atracao
+      include: { obras: true, }, // inclua as obras desta atracao
     });
 
     if ( !atracao ) { // erro de id
         throw new PacoteErro("Atração não encontrada", 404);
     }
-         
+
+    // const qtdObras = await prisma.obra.count({
+    //   where: { atracaoId: atracaoId},
+    // });
+
+    // if ( qtdObras !== 0 ) {
+    //   const obras = await prisma.obra.findMany({
+    //     where: { id: atracaoId },
+    //   })
+    // }
+       
     return atracao;
 }
 

@@ -38,7 +38,7 @@ export default function cadastrarAtracaoPage () {
             <h1 className="text-3xl font-bold mb-6">Nova Atração</h1>
             <form onSubmit={cadastrarAtracao} className="flex flex-col gap-4">
                
-                <input type="text" placeholder='Titulo' value={nome} onChange={(e) => setNome(e.target.value)} className="border p-2 rounded"/>
+                <input type="text" placeholder='Nome' value={nome} onChange={(e) => setNome(e.target.value)} className="border p-2 rounded"/>
 
                 <textarea placeholder="Descrição" value={description} onChange={(e) => setDescription(e.target.value)} className="border p-2 rounded"></textarea >
 
