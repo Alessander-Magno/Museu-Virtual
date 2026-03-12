@@ -31,6 +31,13 @@ export default function cadastrarObraPage () {
             return;
         }
 
+        const res = await fetch(`/api/atracoes/${atracaoId}`);
+
+        if (!res.ok) {
+            alert("ID da atração está incorreto");
+            return;
+        }
+
         const atracaoIdremovedSpace = atracaoId.trim();
         const autorFinal = autor.trim() === "" ? 'desconhecido' : autor;
 

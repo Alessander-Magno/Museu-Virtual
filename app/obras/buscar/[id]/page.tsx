@@ -10,8 +10,10 @@ interface Params {
 
 export default async function ObraPage( { params }: Params ) {
     const { id } = await params;
-    const res = await fetch(`http://localhost:3000/api/obras/${id}`);
-    const obra = await res.json();
+    const resObra = await fetch(`http://localhost:3000/api/obras/${id}`);
+    const obra = await resObra.json();
+    const resAtracao = await fetch(`http://localhost:3000/api/atracoes/${obra.atracaoId}`);
+    const atracao = await resAtracao.json();
   
     return (
     <div className="px-30">
@@ -25,7 +27,7 @@ export default async function ObraPage( { params }: Params ) {
             <p>Titulo: {obra.title}</p>
             <p>Descrição: {obra.description}</p>
             <p>Autor(a): {obra.autor}</p>
-            <p>AtracaoID: {obra.atracaoId}</p>
+            <p>Atracao vinculada: {atracao.nome}</p>
         </div>
 
         </div>
