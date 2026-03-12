@@ -23,7 +23,8 @@ export default async function atualizarAtracaoPageServer( Params: Params ) {
         <div key={atracao.id} className="border rounded-lg p-4 shadow-md mb-6 bg-white px-10">
 
             <div>
-                <h2>Nome: {atracao.nome}</h2>
+                <p>ID: {atracao.id}</p>
+                <p>Nome: {atracao.nome}</p>
                 <p>Descrição: {atracao.description}</p>
                 <p>Disponivel: {atracao.disponibilidade ? "sim" : 'não'}</p>
             </div>

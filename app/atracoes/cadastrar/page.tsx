@@ -28,7 +28,7 @@ export default function cadastrarAtracaoPage () {
             })
         })
 
-        alert("Atração criada!");
+        alert("Atração cadastrada!");
 
         router.push("/atracoes")
     }
