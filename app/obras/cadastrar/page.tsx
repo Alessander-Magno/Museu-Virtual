@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from "next/navigation"
 import styles from '../../css/Home.module.css';
 
-export default function cadastrarAtracaoPage () {
+export default function cadastrarObraPage () {
     const router = useRouter();
     const [ title, setTitle ] = useState("");
     const [ autor, setAutor ] = useState("");
@@ -12,14 +12,26 @@ export default function cadastrarAtracaoPage () {
     const [ description, setDescription ] = useState("");
 
     async function cadastrarObra( e: any ) {
+        const regex = /^[a-zA-ZÀ-ÿ]+$/;
+
         e.preventDefault();
 
-        if (!title.trim() || !description.trim()) {
+        if (!title.trim() || !description.trim() || !atracaoId.trim()) {
             alert("Você deve preencher os campos titulo, descrição e atracaoId");
             return;
         }
 
-        const atracaoIdremoveSpace = atracaoId.trim();
+        if (!regex.test(title) || !regex.test(description)) {
+            alert('É permitido somente letras');
+            return;
+        }
+
+        if (autor.trim() && !regex.test(autor)) {
+            alert('É permitido somente letras');
+            return;
+        }
+
+        const atracaoIdremovedSpace = atracaoId.trim();
         const autorFinal = autor.trim() === "" ? 'desconhecido' : autor;
 
         await fetch("/api/obras", {
@@ -31,7 +43,7 @@ export default function cadastrarAtracaoPage () {
                 title,
                 description,
                 autor: autorFinal,
-                atracaoId: atracaoIdremoveSpace
+                atracaoId: atracaoIdremovedSpace
             })
         })
 

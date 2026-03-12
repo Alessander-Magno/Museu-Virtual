@@ -10,10 +10,18 @@ export default function cadastrarAtracaoPage () {
     const [ description, setDescription ] = useState("");
 
     async function cadastrarAtracao( e: any ) {
+        const regex = /^[a-zA-ZÀ-ÿ]+$/;
+        
         e.preventDefault();
+
 
         if (!nome.trim() || !description.trim()) {
             alert("Preencha todos os campos");
+            return;
+        }
+
+        if (!regex.test(nome) || !regex.test(description)) {
+            alert('É permitido somente letras');
             return;
         }
 

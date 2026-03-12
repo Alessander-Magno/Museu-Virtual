@@ -18,15 +18,14 @@ export default async function atualizarObraPageServer( Params: Params ) {
     return (
     <div className="px-30">
 
-        <h1 className="text-4xl font-bold text-center font-serif mb-10">Informações atuais da Obra</h1>
+        <h1 className="text-4xl font-bold text-center font-serif mt-6 mb-10">Informações atuais da Obra</h1>
 
         <div key={obra.id} className="border rounded-lg p-4 shadow-md mb-6 bg-white px-10">
 
             <div>
                 <p>Titulo: {obra.title}</p>
                 <p>Descrição: {obra.description}</p>
-                <p>Autor: {obra.autor}</p>
-                <p>AtracaoID: {obra.atracaoId}</p>
+                <p>Autor(a): {obra.autor}</p>
             </div>
 
         </div>

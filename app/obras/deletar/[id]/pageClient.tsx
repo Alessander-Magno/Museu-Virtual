@@ -22,10 +22,10 @@ export default function DeletarObraPageClient( { id }: { id: string } ) {
 
     return(
         <div className="max-w-xl mx-auto p-6 flex gap-4">
-             <button type='button' onClick={deletarObra} className={`${styles.navButton}`}>Deletar obra</button>
-             <button type='button' onClick={() => {
+            <button type='button' onClick={() => {
                     router.push("/obras")
                 }} className={`${styles.navButton}`}>Voltar à obras</button>
+            <button type='button' onClick={deletarObra} className={`${styles.navButton}`}>Deletar obra</button>
         </div>
     );
 

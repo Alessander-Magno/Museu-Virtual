@@ -12,10 +12,17 @@ export default function AtualizarAtracaoPageClient( { id }: { id: string } ) {
     const [ description, setDescription ] = useState("");
 
     async function atualizarAtracao ( e: any ) {
+        const regex = /^[a-zA-ZÀ-ÿ]+$/;
+        
         e.preventDefault();
 
         if ( !nome.trim() || !description.trim() ) {
             alert("Preencha todos os campos");
+            return;
+        }
+
+        if (!regex.test(nome) || !regex.test(description)) {
+            alert('É permitido somente letras');
             return;
         }
 
@@ -39,7 +46,7 @@ export default function AtualizarAtracaoPageClient( { id }: { id: string } ) {
 
     return(
         <div className="max-w-xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">Atualização de Atração</h1>
+            <h1 className="text-3xl text-center font-bold mb-6">Atualização de Atração</h1>
             <form onSubmit={atualizarAtracao} className="flex flex-col gap-4">
                 
                 <input type="text" placeholder='Nome' value={nome} onChange={(e) => setNome(e.target.value)} className="border p-2 rounded"/>

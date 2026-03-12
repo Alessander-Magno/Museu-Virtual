@@ -18,26 +18,14 @@ export default async function deletarAtracaoPageServer( Params: Params ) {
     return (
     <div className="px-30">
 
-        <h1 className="text-4xl font-bold text-center font-serif mb-10">Informações atuais da Atração</h1>
+        <h1 className="text-4xl font-bold text-center font-serif mt-6 mb-10">Informações atuais da Atração</h1>
 
         <div key={atracao.id} className="border rounded-lg p-4 shadow-md mb-6 bg-white px-10">
 
             <div>
-                <p>ID: {atracao.id}</p>
                 <p>Nome: {atracao.nome}</p>
                 <p>Descrição: {atracao.description}</p>
                 <p>Disponivel: {atracao.disponibilidade ? "sim" : 'não'}</p>
-            </div>
-            
-            <div>
-                {atracao.obras.map((obra: any, indice: number ) => ( 
-                    <div key={obra.id} className="border rounded p-3 mb-3 bg-gray-50">
-                        <h2 className="bg-gray-50">Obra n°{indice+1}</h2>
-                        <h2 className="bg-gray-50">Titulo: {obra.title}</h2>
-                        <p>Descrição: {obra.description}</p>
-                        <p>Autor: {obra.autor}</p>
-                    </div>
-                ))}
             </div>
 
         </div>

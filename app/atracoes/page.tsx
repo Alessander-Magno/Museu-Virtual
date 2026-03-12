@@ -9,7 +9,7 @@ export default async function AtracaoPage() {
   return (
    <div className="px-50">
 
-    <h1 className="text-4xl font-bold text-center font-serif mb-10">Atrações</h1>
+    <h1 className="text-4xl font-bold text-center font-serif mt-6 mb-10">Atrações</h1>
 
     {atracoes.map((atracao: any) => (
       <div key={atracao.id} className="border rounded-lg p-4 shadow-md mb-6 bg-white px-10">
