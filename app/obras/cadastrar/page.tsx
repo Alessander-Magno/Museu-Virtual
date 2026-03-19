@@ -12,7 +12,7 @@ export default function cadastrarObraPage () {
     const [ description, setDescription ] = useState("");
 
     async function cadastrarObra( e: any ) {
-        const regex = /^[a-zA-ZÀ-ÿ]+$/;
+        const regex = /^[a-zA-ZÀ-ÿ\s]+$/;
 
         e.preventDefault();
 

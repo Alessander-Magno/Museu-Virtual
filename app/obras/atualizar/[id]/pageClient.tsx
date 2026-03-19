@@ -13,7 +13,7 @@ export default function AtualizarObraPageClient( { id }: { id: string } ) {
     const [ description, setDescription ] = useState("");
 
     async function atualizarObra ( e: any ) {
-        const regex = /^[a-zA-ZÀ-ÿ]+$/;
+        const regex = /^[a-zA-ZÀ-ÿ\s]+$/;
         
         e.preventDefault();
 

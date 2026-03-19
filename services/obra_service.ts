@@ -9,9 +9,9 @@ export async function mostrarObrasSer () {
                         // const atracoes -> array de objetos
                         // findMany e familia (findUnique, create, update, delete, etc) métodos gerados pelo prisma
 
-        if (obras.length === 0) {
-            throw new PacoteErro("Nenhuma obra cadastrada", 200);
-        }
+        // if (obras.length === 0) {
+        //     throw new PacoteErro("Nenhuma obra cadastrada", 200);
+        // }
 
         return obras
 }
