@@ -9,9 +9,9 @@ export async function mostrarAtracoesSer () {
                         // const atracoes -> array de objetos
                         // findMany e familia (findUnique, create, update, delete, etc) métodos gerados pelo prisma
 
-        if (atracoes.length === 0) {
-            throw new PacoteErro("Nenhuma atração cadastrada", 200);
-        }
+        // if (atracoes.length === 0) {
+        //     throw new PacoteErro("Nenhuma atração cadastrada", 200);
+        // }
 
         return atracoes
 }

@@ -12,7 +12,7 @@ export default function AtualizarAtracaoPageClient( { id }: { id: string } ) {
     const [ description, setDescription ] = useState("");
 
     async function atualizarAtracao ( e: any ) {
-        const regex = /^[a-zA-ZÀ-ÿ]+$/;
+        const regex = /^[a-zA-ZÀ-ÿ\s]+$/;
         
         e.preventDefault();
 

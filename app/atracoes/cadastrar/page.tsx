@@ -10,7 +10,7 @@ export default function cadastrarAtracaoPage () {
     const [ description, setDescription ] = useState("");
 
     async function cadastrarAtracao( e: any ) {
-        const regex = /^[a-zA-ZÀ-ÿ]+$/;
+        const regex = /^[a-zA-ZÀ-ÿ\s]+$/;
         
         e.preventDefault();
 
