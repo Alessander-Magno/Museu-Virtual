@@ -1,23 +1,23 @@
 import 'package:acervus_app/home.dart';
 import 'package:flutter/material.dart';
-import 'package:acervus_app/functions/atracao/buscar_atracoes_function.dart';
+import 'package:acervus_app/functions/obra/buscar_obras_function.dart';
 
-class AtracoesPage extends StatefulWidget {
-  const AtracoesPage({super.key});
+class ObrasPage extends StatefulWidget {
+  const ObrasPage({super.key});
 
   @override
-  State<AtracoesPage> createState() => _AtracoesPageState();
+  State<ObrasPage> createState() => _ObrasPageState();
 }
 
-class _AtracoesPageState extends State<AtracoesPage> {
+class _ObrasPageState extends State<ObrasPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Atrações'),
+        title: Text('Obras'),
       ),
       body: FutureBuilder(
-        future: buscarAtracoes(), 
+        future: buscarObras(), 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -36,12 +36,12 @@ class _AtracoesPageState extends State<AtracoesPage> {
             );
           }
 
-          final atracoes = snapshot.data!;
+          final obras = snapshot.data!;
 
           return ListView.builder(
-            itemCount: atracoes.length + 1,
+            itemCount: obras.length + 1,
             itemBuilder: (context, index) {
-              if (index == atracoes.length) {
+              if (index == obras.length) {
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.all(46.0),
@@ -51,14 +51,14 @@ class _AtracoesPageState extends State<AtracoesPage> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
                         },
-                        child: Text('Cadastrar Atração'),
+                        child: Text('Cadastrar Obra'),
                       ),
                     ),
                   ),
                 );
               }
 
-              final atracao = atracoes[index];
+              final obra = obras[index];
 
               return Center(
                 child: Container(
@@ -74,7 +74,7 @@ class _AtracoesPageState extends State<AtracoesPage> {
                   width: 700,
                   child: ListTile(
                     title: Text(
-                      "Nome: ${atracao.nome}",
+                      "Titulo: ${obra.title}",
                       style: TextStyle(
                         fontSize: 22,
                       ),
@@ -83,12 +83,12 @@ class _AtracoesPageState extends State<AtracoesPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Descrição: ${atracao.description}",
+                          "Descrição: ${obra.description}",
                           style: TextStyle(
                             fontSize: 18
                           ),
                         ),
-                        Text("Disponibilidade: ${(atracao.disponibilidade) ? "sim" : "não"}",
+                        Text("Autor: ${(obra.autor)}",
                           style: TextStyle(
                             fontSize: 18
                           ),

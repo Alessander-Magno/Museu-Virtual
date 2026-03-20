@@ -1,3 +1,4 @@
+import 'package:acervus_app/pages/obra/obras_page.dart';
 import 'package:flutter/material.dart';
 import 'package:acervus_app/pages/atracao/atracoes_page.dart';
 
@@ -39,7 +40,9 @@ class Home extends StatelessWidget {
                 ), 
                 SizedBox(width: 16),
                 ElevatedButton.icon(
-                  onPressed: () {}, 
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ObrasPage()));
+                  }, 
                   label: Text('Obras', style: TextStyle(
                       fontSize: 22,
                     ),
