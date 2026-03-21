@@ -93,26 +93,40 @@ class _CadastrarAtracaoPageState extends State<CadastrarAtracaoPage> {
                     ),
                     SizedBox(height: 16,),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           final nome = _nomeController.text.trim();
                           final descricao = _descricaoController.text.trim();
 
-                          cadastrarAtracaoFunction(nome, descricao);
+                          final resultado = await cadastrarAtracaoFunction(nome, descricao);
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Atração cadastrada com sucesso'),
-                              duration: Duration(seconds: 3),
-                            ),
-                          );
+                          if (resultado == true) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Atração cadastrada com sucesso'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
 
-                          Navigator.pop(context, true);
+                            Future.delayed(
+                              Duration(seconds: 2),
+                              () {
+                                Navigator.pop(context, true);
+                              },
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Falha ao cadatrar atração"),
+                                duration: Duration(seconds: 2),
+                              )
+                            );
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text("Falha ao cadastrada atração"),
-                              duration: Duration(seconds: 3),
+                              content: Text("Falha no formulário"),
+                              duration: Duration(seconds: 2),
                             )
                           );
                         }

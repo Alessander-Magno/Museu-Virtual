@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:acervus_app/models/atracao_model.dart';
 import 'package:acervus_app/pages/atracao/atracoes_page.dart';
@@ -19,6 +21,14 @@ class _AtualizarAtracaoPageState extends State<AtualizarAtracaoPage> {
   final TextEditingController _descricaoController = TextEditingController();
   //
   final regexGeral = RegExp(r'^[a-zA-ZÀ-ÿ\s]{4,}$');
+
+  @override
+  void initState() {
+    super.initState();
+
+    _nomeController.text = widget.atracao.nome;
+    _descricaoController.text = widget.atracao.description;
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -129,28 +139,42 @@ class _AtualizarAtracaoPageState extends State<AtualizarAtracaoPage> {
                     ),
                     SizedBox(height: 16,),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           final nome = _nomeController.text.trim();
                           final descricao = _descricaoController.text.trim();
 
-                          atualizarAtracaoFunction(nome, descricao, widget.atracao.id);
+                          final resultado = await atualizarAtracaoFunction(nome, descricao, widget.atracao.id);
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Atração atualizada com sucesso'),
-                              duration: Duration(seconds: 3),
-                            ),
-                          );
+                          if (resultado == true) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Atração atualizada com sucesso'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
 
-                          Navigator.pop(context, true);
+                            Future.delayed(
+                              Duration(seconds: 2),
+                              () {
+                                Navigator.pop(context, true);
+                              },
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Falha ao atualizar atração"),
+                                duration: Duration(seconds: 2),
+                              )
+                            );
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Falha ao atualizar atração"),
-                              duration: Duration(seconds: 3),
-                            )
-                          );
+                              SnackBar(
+                                content: Text("Falha no formulário"),
+                                duration: Duration(seconds: 2),
+                              )
+                            );
                         }
                       },
                       child: SizedBox(

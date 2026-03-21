@@ -158,7 +158,7 @@ class _AtracoesPageState extends State<AtracoesPage> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text("Falha ao deletar atração"),
-                                  duration: Duration(seconds: 3),
+                                  duration: Duration(seconds: 2),
                                 )
                               );
                             }
