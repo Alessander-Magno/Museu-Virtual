@@ -1,8 +1,15 @@
 "use client"
 
-import { useState } from 'react';
 import { useRouter } from "next/navigation"
 import styles from '../../css/Home.module.css';
+import { useEffect, useState } from 'react';
+
+type Atracao = {
+    id: string,
+    nome: string,
+    description: string,
+    disponibilidade: boolean
+};
 
 export default function cadastrarObraPage () {
     const router = useRouter();
@@ -10,6 +17,11 @@ export default function cadastrarObraPage () {
     const [ autor, setAutor ] = useState("");
     const [ atracaoId, setAtracaoId ] = useState("");
     const [ description, setDescription ] = useState("");
+    const [ atracoes, setAtracoes ] = useState<Atracao[]>([]);
+
+    useEffect(() => {
+        fetch("http://localhost:3000/api/atracoes").then(res => res.json()).then(data => setAtracoes(data))
+    }, []);
 
     async function cadastrarObra( e: any ) {
         const regex = /^[a-zA-ZÀ-ÿ\s]+$/;
@@ -68,8 +80,15 @@ export default function cadastrarObraPage () {
 
                 <input type="text" placeholder='Autor(opcional)' value={autor} onChange={(e) => setAutor(e.target.value)} className="border p-2 rounded"/>
 
-                <input type="text" placeholder='AtracaoId' value={atracaoId} onChange={(e) => setAtracaoId(e.target.value)} className="border p-2 rounded"/>
+                {/* <input type="text" placeholder='AtracaoId' value={atracaoId} onChange={(e) => setAtracaoId(e.target.value)} className="border p-2 rounded"/> */}
                 
+                <select value={atracaoId} onChange={(e) => setAtracaoId(e.target.value)} className='border p-2 rounded'>
+                    <option value="">Selecione uma atração</option>
+                    {atracoes.map((atracao) => (
+                        <option key={atracao.id} value={atracao.id}>{atracao.nome}</option>
+                    ))}
+                </select>
+
                 <textarea placeholder="Descrição" value={description} onChange={(e) => setDescription(e.target.value)} className="border p-2 rounded"></textarea >
 
                 <button className={`${styles.navButton}`} type='submit'>Cadastrar Obra</button>
