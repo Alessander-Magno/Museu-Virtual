@@ -1,5 +1,18 @@
-import 'package:acervus_app/home.dart';
+import 'package:acervus_app/functions/obra/buscar_obra_function.dart';
+import 'package:acervus_app/functions/obra/buscar_obras_function.dart';
+import 'package:acervus_app/functions/obra/cadastrar_obra_function.dart';
+import 'package:acervus_app/models/obra_model.dart';
+import 'package:acervus_app/pages/atracao/atualizar_atracao_page.dart';
+import 'package:acervus_app/pages/obra/atualizar_obra_page.dart';
+import 'package:acervus_app/pages/obra/buscar_obra_page.dart';
+import 'package:acervus_app/pages/obra/cadastrar_obra_page.dart';
 import 'package:flutter/material.dart';
+import 'package:acervus_app/home.dart';
+import 'package:acervus_app/models/atracao_model.dart';
+import 'package:acervus_app/pages/atracao/buscar_atracao_page.dart';
+import 'package:acervus_app/pages/atracao/cadastrar_atracao_page.dart';
+import 'package:acervus_app/functions/obra/buscar_obra_function.dart';
+import 'package:acervus_app/functions/obra/deletar_obra_function.dart';
 import 'package:acervus_app/functions/obra/buscar_obras_function.dart';
 
 class ObrasPage extends StatefulWidget {
@@ -10,14 +23,27 @@ class ObrasPage extends StatefulWidget {
 }
 
 class _ObrasPageState extends State<ObrasPage> {
+  late Future<List<ObraModel>> futureObras;
+
+  @override
+  void initState() {
+    super.initState();
+    futureObras = buscarObrasFunction();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Obras'),
+        title: Text(
+          'Obras',
+          style: TextStyle(
+            fontSize: 25,
+          ),
+        ),
       ),
       body: FutureBuilder(
-        future: buscarObras(), 
+        future: futureObras, 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -30,7 +56,7 @@ class _ObrasPageState extends State<ObrasPage> {
               child: Text(
                 'Erro ao carregar', 
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 25,
                 ),
               )
             );
@@ -46,12 +72,23 @@ class _ObrasPageState extends State<ObrasPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(46.0),
                     child: SizedBox(
-                      width: 220,
+                      width: 265,
+                      height: 60,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
+                        onPressed: () async {
+                          final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarObraPage()));
+
+                          if (resultado == true) {
+                            setState(() {
+                              futureObras = buscarObrasFunction();
+                            });
+                          }
                         },
-                        child: Text('Cadastrar Obra'),
+                        child: Text('Cadastrar Obra',
+                          style: TextStyle(
+                            fontSize: 22,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -76,41 +113,77 @@ class _ObrasPageState extends State<ObrasPage> {
                     title: Text(
                       "Titulo: ${obra.title}",
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 25,
                       ),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Descrição: ${obra.description}",
+                          "Autor: ${obra.autor}",
                           style: TextStyle(
-                            fontSize: 18
+                            fontSize: 21
                           ),
                         ),
-                        Text("Autor: ${(obra.autor)}",
+                        Text(
+                          "Descrição: ${obra.description}",
                           style: TextStyle(
-                            fontSize: 18
+                            fontSize: 21
                           ),
-                        )
+                        ),
                       ],
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: () {}, 
-                          icon: Icon(Icons.search)
+                          icon: Icon(Icons.search),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarObraPage(obra: obra)));
+                          }, 
                         ),
                         SizedBox(width: 10,),
                         IconButton(
-                          onPressed: () {}, 
-                          icon: Icon(Icons.delete)
+                          icon: Icon(Icons.delete),
+                          onPressed: () async {
+                            final deletado = await deletarObraFunction(obra.id);
+
+                            if (deletado == true) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Sucesso ao deletar obra"),
+                                  duration: Duration(seconds: 2),
+                                )
+                              );
+
+                              Future.delayed(
+                                Duration(seconds: 2),
+                                () {
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ObrasPage()));
+                                },
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Falha ao deletar obra"),
+                                  duration: Duration(seconds: 2),
+                                )
+                              );
+                            }
+                          }, 
                         ),
                         SizedBox(width: 10,),
                          IconButton(
-                          onPressed: () {}, 
-                          icon: Icon(Icons.edit)
+                          icon: Icon(Icons.edit),
+                          onPressed: () async {
+                            final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarObraPage(obra: obra)));
+
+                            if (resultado == true) {
+                              setState(() {
+                                futureObras = buscarObrasFunction();
+                              });
+                            }
+                          }, 
                         ),
                       ],
                     ),
