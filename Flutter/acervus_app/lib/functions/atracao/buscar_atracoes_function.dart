@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:acervus_app/models/atracao_model.dart';
 
-Future<List<AtracaoModel>> buscarAtracoes () async {
+Future<List<AtracaoModel>> buscarAtracoesFunction () async {
   final response = await http.get(
     Uri.parse("http://localhost:3000/api/atracoes")
   );

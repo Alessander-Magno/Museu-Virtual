@@ -1,5 +1,11 @@
-import 'package:acervus_app/home.dart';
 import 'package:flutter/material.dart';
+import 'package:acervus_app/home.dart';
+import 'package:acervus_app/models/atracao_model.dart';
+import 'package:acervus_app/pages/atracao/buscar_atracao_page.dart';
+import 'package:acervus_app/pages/atracao/cadastrar_atracao_page.dart';
+import 'package:acervus_app/pages/atracao/atualizar_atracao_page.dart';
+import 'package:acervus_app/functions/atracao/buscar_atracao_function.dart';
+import 'package:acervus_app/functions/atracao/deletar_atracao_function.dart';
 import 'package:acervus_app/functions/atracao/buscar_atracoes_function.dart';
 
 class AtracoesPage extends StatefulWidget {
@@ -10,14 +16,27 @@ class AtracoesPage extends StatefulWidget {
 }
 
 class _AtracoesPageState extends State<AtracoesPage> {
+  late Future<List<AtracaoModel>> futureAtracoes;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAtracoes = buscarAtracoesFunction();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Atrações'),
+        title: Text(
+          'Atrações',
+          style: TextStyle(
+            fontSize: 25,
+          ),
+        ),
       ),
       body: FutureBuilder(
-        future: buscarAtracoes(), 
+        future: futureAtracoes, 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -30,7 +49,7 @@ class _AtracoesPageState extends State<AtracoesPage> {
               child: Text(
                 'Erro ao carregar', 
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 25,
                 ),
               )
             );
@@ -46,12 +65,23 @@ class _AtracoesPageState extends State<AtracoesPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(46.0),
                     child: SizedBox(
-                      width: 220,
+                      width: 265,
+                      height: 60,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
+                        onPressed: () async {
+                          final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarAtracaoPage()));
+
+                          if (resultado == true) {
+                            setState(() {
+                              futureAtracoes = buscarAtracoesFunction();
+                            });
+                          }
                         },
-                        child: Text('Cadastrar Atração'),
+                        child: Text('Cadastrar Atração',
+                          style: TextStyle(
+                            fontSize: 22,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -76,7 +106,7 @@ class _AtracoesPageState extends State<AtracoesPage> {
                     title: Text(
                       "Nome: ${atracao.nome}",
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 25,
                       ),
                     ),
                     subtitle: Column(
@@ -85,12 +115,12 @@ class _AtracoesPageState extends State<AtracoesPage> {
                         Text(
                           "Descrição: ${atracao.description}",
                           style: TextStyle(
-                            fontSize: 18
+                            fontSize: 21
                           ),
                         ),
                         Text("Disponibilidade: ${(atracao.disponibilidade) ? "sim" : "não"}",
                           style: TextStyle(
-                            fontSize: 18
+                            fontSize: 21
                           ),
                         )
                       ],
@@ -99,18 +129,53 @@ class _AtracoesPageState extends State<AtracoesPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: () {}, 
-                          icon: Icon(Icons.search)
+                          icon: Icon(Icons.search),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarAtracaoPage(atracao: atracao)));
+                          }, 
                         ),
                         SizedBox(width: 10,),
                         IconButton(
-                          onPressed: () {}, 
-                          icon: Icon(Icons.delete)
+                          icon: Icon(Icons.delete),
+                          onPressed: () async {
+                            final deletado = await deletarAtracaoFunction(atracao.id);
+
+                            if (deletado) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Sucesso ao deletar atração"),
+                                  duration: Duration(seconds: 2),
+                                )
+                              );
+
+                              Future.delayed(
+                                Duration(seconds: 2),
+                                () {
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AtracoesPage()));
+                                },
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Falha ao deletar atração"),
+                                  duration: Duration(seconds: 3),
+                                )
+                              );
+                            }
+                          }, 
                         ),
                         SizedBox(width: 10,),
                          IconButton(
-                          onPressed: () {}, 
-                          icon: Icon(Icons.edit)
+                          icon: Icon(Icons.edit),
+                          onPressed: () async {
+                            final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarAtracaoPage(atracao: atracao)));
+
+                            if (resultado == true) {
+                              setState(() {
+                                futureAtracoes = buscarAtracoesFunction();
+                              });
+                            }
+                          }, 
                         ),
                       ],
                     ),
