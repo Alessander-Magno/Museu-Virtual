@@ -129,9 +129,7 @@ class _CadastrarObraPageState extends State<CadastrarObraPage> {
                     SizedBox(height: 16,),
                     SizedBox(
                       width: 900,
-                      child: atracoes.isEmpty 
-                      ? CircularProgressIndicator()
-                      : DropdownButtonFormField<String>(
+                      child: DropdownButtonFormField<String>(
                         key: ValueKey(atracaoId),
                         initialValue: atracaoId,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -141,7 +139,7 @@ class _CadastrarObraPageState extends State<CadastrarObraPage> {
                           border: OutlineInputBorder()
                         ),
 
-                        hint: Text('Selecione uma atração:'),
+                        hint: Text('Selecione uma atração'),
 
                         items: atracoes.map((atracao) {
                           return DropdownMenuItem<String>(

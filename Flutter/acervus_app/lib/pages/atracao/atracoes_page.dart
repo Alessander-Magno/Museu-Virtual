@@ -57,20 +57,28 @@ class _AtracoesPageState extends State<AtracoesPage> {
 
           final atracoes = snapshot.data!;
 
-          return ListView.builder(
-            itemCount: atracoes.length + 1,
-            itemBuilder: (context, index) {
-              if (index == atracoes.length) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(46.0),
-                    child: SizedBox(
+          if (atracoes.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(46.0),
+                child: Column(
+                  children: [
+                    Text(
+                      "Sem atrações cadastradas no momento",
+                      style: TextStyle(
+                        fontFamily: 'Playfair',
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 30,),
+                    SizedBox(
                       width: 265,
                       height: 60,
                       child: ElevatedButton(
                         onPressed: () async {
                           final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarAtracaoPage()));
-
+                    
                           if (resultado == true) {
                             setState(() {
                               futureAtracoes = buscarAtracoesFunction();
@@ -84,107 +92,139 @@ class _AtracoesPageState extends State<AtracoesPage> {
                         ),
                       ),
                     ),
-                  ),
-                );
-              }
-
-              final atracao = atracoes[index];
-
-              return Center(
-                child: Container(
-                  margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1
-                    ),
-                    borderRadius: BorderRadius.circular(16)
-                  ),
-                  width: 700,
-                  child: ListTile(
-                    title: Text(
-                      "Nome: ${atracao.nome}",
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Descrição: ${atracao.description}",
-                          style: TextStyle(
-                            fontSize: 21
-                          ),
-                        ),
-                        Text("Disponibilidade: ${(atracao.disponibilidade) ? "sim" : "não"}",
-                          style: TextStyle(
-                            fontSize: 21
-                          ),
-                        )
-                      ],
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.search),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarAtracaoPage(atracao: atracao)));
-                          }, 
-                        ),
-                        SizedBox(width: 10,),
-                        IconButton(
-                          icon: Icon(Icons.delete),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: atracoes.length + 1,
+              itemBuilder: (context, index) {
+                if (index == atracoes.length) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(46.0),
+                      child: SizedBox(
+                        width: 265,
+                        height: 60,
+                        child: ElevatedButton(
                           onPressed: () async {
-                            final deletado = await deletarAtracaoFunction(atracao.id);
-
-                            if (deletado) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Sucesso ao deletar atração"),
-                                  duration: Duration(seconds: 2),
-                                )
-                              );
-
-                              Future.delayed(
-                                Duration(seconds: 2),
-                                () {
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AtracoesPage()));
-                                },
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Falha ao deletar atração"),
-                                  duration: Duration(seconds: 2),
-                                )
-                              );
-                            }
-                          }, 
-                        ),
-                        SizedBox(width: 10,),
-                         IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () async {
-                            final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarAtracaoPage(atracao: atracao)));
+                            final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarAtracaoPage()));
 
                             if (resultado == true) {
                               setState(() {
                                 futureAtracoes = buscarAtracoesFunction();
                               });
                             }
-                          }, 
+                          },
+                          child: Text('Cadastrar Atração',
+                            style: TextStyle(
+                              fontSize: 22,
+                            ),
+                          ),
                         ),
-                      ],
+                      ),
+                    ),
+                  );
+                }
+
+                final atracao = atracoes[index];
+
+                return Center(
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1
+                      ),
+                      borderRadius: BorderRadius.circular(16)
+                    ),
+                    width: 700,
+                    child: ListTile(
+                      title: Text(
+                        "Nome: ${atracao.nome}",
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Descrição: ${atracao.description}",
+                            style: TextStyle(
+                              fontSize: 21
+                            ),
+                          ),
+                          Text("Disponibilidade: ${(atracao.disponibilidade) ? "sim" : "não"}",
+                            style: TextStyle(
+                              fontSize: 21
+                            ),
+                          )
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.search),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarAtracaoPage(atracao: atracao)));
+                            }, 
+                          ),
+                          SizedBox(width: 10,),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () async {
+                              final deletado = await deletarAtracaoFunction(atracao.id);
+
+                              if (deletado) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Sucesso ao deletar atração"),
+                                    duration: Duration(seconds: 2),
+                                  )
+                                );
+
+                                Future.delayed(
+                                  Duration(seconds: 2),
+                                  () {
+                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AtracoesPage()));
+                                  },
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Falha ao deletar atração"),
+                                    duration: Duration(seconds: 2),
+                                  )
+                                );
+                              }
+                            }, 
+                          ),
+                          SizedBox(width: 10,),
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () async {
+                              final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarAtracaoPage(atracao: atracao)));
+
+                              if (resultado == true) {
+                                setState(() {
+                                  futureAtracoes = buscarAtracoesFunction();
+                                });
+                              }
+                            }, 
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-
-          );
+                );
+              },
+            );
+          }
         }
       ),
     );

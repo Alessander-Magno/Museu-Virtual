@@ -64,20 +64,28 @@ class _ObrasPageState extends State<ObrasPage> {
 
           final obras = snapshot.data!;
 
-          return ListView.builder(
-            itemCount: obras.length + 1,
-            itemBuilder: (context, index) {
-              if (index == obras.length) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(46.0),
-                    child: SizedBox(
+          if (obras.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(46.0),
+                child: Column(
+                  children: [
+                    Text(
+                      "Sem obras cadastradas no momento",
+                      style: TextStyle(
+                        fontFamily: 'Playfair',
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 30,),
+                    SizedBox(
                       width: 265,
                       height: 60,
                       child: ElevatedButton(
                         onPressed: () async {
                           final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarObraPage()));
-
+                    
                           if (resultado == true) {
                             setState(() {
                               futureObras = buscarObrasFunction();
@@ -91,108 +99,140 @@ class _ObrasPageState extends State<ObrasPage> {
                         ),
                       ),
                     ),
-                  ),
-                );
-              }
-
-              final obra = obras[index];
-
-              return Center(
-                child: Container(
-                  margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1
-                    ),
-                    borderRadius: BorderRadius.circular(16)
-                  ),
-                  width: 700,
-                  child: ListTile(
-                    title: Text(
-                      "Titulo: ${obra.title}",
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Autor: ${obra.autor}",
-                          style: TextStyle(
-                            fontSize: 21
-                          ),
-                        ),
-                        Text(
-                          "Descrição: ${obra.description}",
-                          style: TextStyle(
-                            fontSize: 21
-                          ),
-                        ),
-                      ],
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.search),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarObraPage(obra: obra)));
-                          }, 
-                        ),
-                        SizedBox(width: 10,),
-                        IconButton(
-                          icon: Icon(Icons.delete),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: obras.length + 1,
+              itemBuilder: (context, index) {
+                if (index == obras.length) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(46.0),
+                      child: SizedBox(
+                        width: 265,
+                        height: 60,
+                        child: ElevatedButton(
                           onPressed: () async {
-                            final deletado = await deletarObraFunction(obra.id);
-
-                            if (deletado == true) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Sucesso ao deletar obra"),
-                                  duration: Duration(seconds: 2),
-                                )
-                              );
-
-                              Future.delayed(
-                                Duration(seconds: 2),
-                                () {
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ObrasPage()));
-                                },
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Falha ao deletar obra"),
-                                  duration: Duration(seconds: 2),
-                                )
-                              );
-                            }
-                          }, 
-                        ),
-                        SizedBox(width: 10,),
-                         IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () async {
-                            final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarObraPage(obra: obra)));
+                            final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarObraPage()));
 
                             if (resultado == true) {
                               setState(() {
                                 futureObras = buscarObrasFunction();
                               });
                             }
-                          }, 
+                          },
+                          child: Text('Cadastrar Obra',
+                            style: TextStyle(
+                              fontSize: 22,
+                            ),
+                          ),
                         ),
-                      ],
+                      ),
+                    ),
+                  );
+                }
+
+                final obra = obras[index];
+
+                return Center(
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1
+                      ),
+                      borderRadius: BorderRadius.circular(16)
+                    ),
+                    width: 700,
+                    child: ListTile(
+                      title: Text(
+                        "Titulo: ${obra.title}",
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Autor: ${obra.autor}",
+                            style: TextStyle(
+                              fontSize: 21
+                            ),
+                          ),
+                          Text(
+                            "Descrição: ${obra.description}",
+                            style: TextStyle(
+                              fontSize: 21
+                            ),
+                          ),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.search),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarObraPage(obra: obra)));
+                            }, 
+                          ),
+                          SizedBox(width: 10,),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () async {
+                              final deletado = await deletarObraFunction(obra.id);
+
+                              if (deletado == true) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Sucesso ao deletar obra"),
+                                    duration: Duration(seconds: 2),
+                                  )
+                                );
+
+                                Future.delayed(
+                                  Duration(seconds: 2),
+                                  () {
+                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ObrasPage()));
+                                  },
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Falha ao deletar obra"),
+                                    duration: Duration(seconds: 2),
+                                  )
+                                );
+                              }
+                            }, 
+                          ),
+                          SizedBox(width: 10,),
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () async {
+                              final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarObraPage(obra: obra)));
+
+                              if (resultado == true) {
+                                setState(() {
+                                  futureObras = buscarObrasFunction();
+                                });
+                              }
+                            }, 
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-
-          );
+                );
+              },
+            );
+          }
         }
       ),
     );
