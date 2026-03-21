@@ -1,11 +1,10 @@
 import 'package:acervus_app/models/atracao_model.dart';
-import 'package:acervus_app/pages/atracao/atracoes_page.dart';
 import 'package:flutter/material.dart';
 
 class BuscarAtracaoPage extends StatelessWidget {
   final AtracaoModel atracao;
   
-  BuscarAtracaoPage({super.key, required AtracaoModel this.atracao});
+  const BuscarAtracaoPage({super.key, required this.atracao});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class BuscarAtracaoPage extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "${atracao.nome}",
+              atracao.nome,
               style: TextStyle(
                 fontSize: 62,
                 fontWeight: FontWeight.bold,

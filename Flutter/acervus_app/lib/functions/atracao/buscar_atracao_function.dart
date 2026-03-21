@@ -4,7 +4,7 @@ import 'package:acervus_app/models/atracao_model.dart';
 
 Future<AtracaoModel> buscarAtracaoFunction (String id) async {
   final response = await http.get(
-    Uri.parse("http://localhost:3000/api/atracoes/${id}")
+    Uri.parse("http://localhost:3000/api/atracoes/$id")
   );
 
   if (response.statusCode == 200) {

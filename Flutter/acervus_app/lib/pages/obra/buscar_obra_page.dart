@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:acervus_app/models/obra_model.dart';
 
-import 'package:acervus_app/pages/atracao/atracoes_page.dart';
-
 class BuscarObraPage extends StatelessWidget {
   final ObraModel obra;
   
-  BuscarObraPage({super.key, required ObraModel this.obra});
+  const BuscarObraPage({super.key, required this.obra});
 
   @override
   Widget build(BuildContext context) {

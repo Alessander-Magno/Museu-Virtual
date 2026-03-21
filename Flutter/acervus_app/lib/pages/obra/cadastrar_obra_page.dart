@@ -1,13 +1,10 @@
 import 'package:acervus_app/functions/atracao/buscar_atracoes_function.dart';
-import 'package:acervus_app/functions/atracao/cadastrar_atracao_function.dart';
 import 'package:acervus_app/functions/obra/cadastrar_obra_function.dart';
-import 'package:flutter/material.dart';
 import 'package:acervus_app/models/atracao_model.dart';
-import 'package:acervus_app/pages/atracao/atracoes_page.dart';
-import 'package:acervus_app/functions/atracao/atualizar_atracao_function.dart';
+import 'package:flutter/material.dart';
 
 class CadastrarObraPage extends StatefulWidget {
-  CadastrarObraPage({super.key});
+  const CadastrarObraPage({super.key});
 
   @override
   State<CadastrarObraPage> createState() => _CadastrarObraPageState();
@@ -19,7 +16,6 @@ class _CadastrarObraPageState extends State<CadastrarObraPage> {
   final TextEditingController _tituloController = TextEditingController();
   final TextEditingController _autorController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
-  final TextEditingController _atracaoIdController = TextEditingController();
   //
   final regexGeral = RegExp(r'^[a-zA-ZÀ-ÿ\s]{4,}$');
   final regexAtracaoId = RegExp(r'^[a-zA-ZÀ-ÿ0-9\s-]{40,}$');
@@ -139,7 +135,7 @@ class _CadastrarObraPageState extends State<CadastrarObraPage> {
                           border: OutlineInputBorder()
                         ),
 
-                        hint: Text('Selecione uma atração'),
+                        hint: Text('Vincule a uma atração'),
 
                         items: atracoes.map((atracao) {
                           return DropdownMenuItem<String>(

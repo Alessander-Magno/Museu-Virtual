@@ -1,19 +1,10 @@
-import 'package:acervus_app/functions/obra/buscar_obra_function.dart';
 import 'package:acervus_app/functions/obra/buscar_obras_function.dart';
-import 'package:acervus_app/functions/obra/cadastrar_obra_function.dart';
 import 'package:acervus_app/models/obra_model.dart';
-import 'package:acervus_app/pages/atracao/atualizar_atracao_page.dart';
 import 'package:acervus_app/pages/obra/atualizar_obra_page.dart';
 import 'package:acervus_app/pages/obra/buscar_obra_page.dart';
 import 'package:acervus_app/pages/obra/cadastrar_obra_page.dart';
 import 'package:flutter/material.dart';
-import 'package:acervus_app/home.dart';
-import 'package:acervus_app/models/atracao_model.dart';
-import 'package:acervus_app/pages/atracao/buscar_atracao_page.dart';
-import 'package:acervus_app/pages/atracao/cadastrar_atracao_page.dart';
-import 'package:acervus_app/functions/obra/buscar_obra_function.dart';
 import 'package:acervus_app/functions/obra/deletar_obra_function.dart';
-import 'package:acervus_app/functions/obra/buscar_obras_function.dart';
 
 class ObrasPage extends StatefulWidget {
   const ObrasPage({super.key});

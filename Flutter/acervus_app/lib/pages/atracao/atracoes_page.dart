@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:acervus_app/home.dart';
 import 'package:acervus_app/models/atracao_model.dart';
 import 'package:acervus_app/pages/atracao/buscar_atracao_page.dart';
 import 'package:acervus_app/pages/atracao/cadastrar_atracao_page.dart';
 import 'package:acervus_app/pages/atracao/atualizar_atracao_page.dart';
-import 'package:acervus_app/functions/atracao/buscar_atracao_function.dart';
 import 'package:acervus_app/functions/atracao/deletar_atracao_function.dart';
 import 'package:acervus_app/functions/atracao/buscar_atracoes_function.dart';
 

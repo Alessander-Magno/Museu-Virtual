@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 
 import 'package:acervus_app/models/obra_model.dart';
@@ -9,7 +7,7 @@ import 'package:acervus_app/functions/obra/atualizar_obra_function.dart';
 class AtualizarObraPage extends StatefulWidget {
   final ObraModel obra;
   
-  AtualizarObraPage({super.key, required ObraModel this.obra});
+  const AtualizarObraPage({super.key, required this.obra});
 
   @override
   State<AtualizarObraPage> createState() => _AtualizarObraPageState();
@@ -48,7 +46,7 @@ class _AtualizarObraPageState extends State<AtualizarObraPage> {
         child: Column(
           children: [
             Text(
-              "${widget.obra.title}",
+              widget.obra.title,
               style: TextStyle(
                 fontSize: 62,
                 fontWeight: FontWeight.bold,

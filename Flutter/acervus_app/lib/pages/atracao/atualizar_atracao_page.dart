@@ -1,14 +1,11 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:acervus_app/models/atracao_model.dart';
-import 'package:acervus_app/pages/atracao/atracoes_page.dart';
 import 'package:acervus_app/functions/atracao/atualizar_atracao_function.dart';
 
 class AtualizarAtracaoPage extends StatefulWidget {
   final AtracaoModel atracao;
   
-  AtualizarAtracaoPage({super.key, required AtracaoModel this.atracao});
+  const AtualizarAtracaoPage({super.key, required this.atracao});
 
   @override
   State<AtualizarAtracaoPage> createState() => _AtualizarAtracaoPageState();
@@ -45,7 +42,7 @@ class _AtualizarAtracaoPageState extends State<AtualizarAtracaoPage> {
         child: Column(
           children: [
             Text(
-              "${widget.atracao.nome}",
+              widget.atracao.nome,
               style: TextStyle(
                 fontSize: 62,
                 fontWeight: FontWeight.bold,

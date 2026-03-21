@@ -1,11 +1,8 @@
-import 'package:acervus_app/functions/atracao/cadastrar_atracao_function.dart';
 import 'package:flutter/material.dart';
-import 'package:acervus_app/models/atracao_model.dart';
-import 'package:acervus_app/pages/atracao/atracoes_page.dart';
-import 'package:acervus_app/functions/atracao/atualizar_atracao_function.dart';
+import 'package:acervus_app/functions/atracao/cadastrar_atracao_function.dart';
 
 class CadastrarAtracaoPage extends StatefulWidget {
-  CadastrarAtracaoPage({super.key});
+  const CadastrarAtracaoPage({super.key});
 
   @override
   State<CadastrarAtracaoPage> createState() => _CadastrarAtracaoPageState();

@@ -4,7 +4,7 @@ import 'package:acervus_app/models/obra_model.dart';
 
 Future<ObraModel> buscarObraFunction (String id) async {
   final response = await http.get(
-    Uri.parse("http://localhost:3000/api/obras/${id}")
+    Uri.parse("http://localhost:3000/api/obras/$id")
   );
 
   if (response.statusCode == 200) {
