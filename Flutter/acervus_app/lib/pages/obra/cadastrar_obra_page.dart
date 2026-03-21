@@ -1,3 +1,4 @@
+import 'package:acervus_app/functions/atracao/buscar_atracoes_function.dart';
 import 'package:acervus_app/functions/atracao/cadastrar_atracao_function.dart';
 import 'package:acervus_app/functions/obra/cadastrar_obra_function.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,16 @@ class _CadastrarObraPageState extends State<CadastrarObraPage> {
   //
   final regexGeral = RegExp(r'^[a-zA-ZÀ-ÿ\s]{4,}$');
   final regexAtracaoId = RegExp(r'^[a-zA-ZÀ-ÿ0-9\s-]{40,}$');
-  
+  //
+  List<AtracaoModel> atracoes = [];
+  String? atracaoId;
+
+  @override
+  void initState() {
+    super.initState();
+    carregarAtracoes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,18 +129,38 @@ class _CadastrarObraPageState extends State<CadastrarObraPage> {
                     SizedBox(height: 16,),
                     SizedBox(
                       width: 900,
-                      child: TextFormField(
-                        controller: _atracaoIdController,
+                      child: atracoes.isEmpty 
+                      ? CircularProgressIndicator()
+                      : DropdownButtonFormField<String>(
+                        key: ValueKey(atracaoId),
+                        initialValue: atracaoId,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
+
                         decoration: InputDecoration(
-                          labelText: 'atracaoId',
-                          border: OutlineInputBorder(),
+                          labelText: "Atração",
+                          border: OutlineInputBorder()
                         ),
+
+                        hint: Text('Selecione uma atração:'),
+
+                        items: atracoes.map((atracao) {
+                          return DropdownMenuItem<String>(
+                            value: atracao.id,
+                            child: Text(atracao.nome)
+                          );
+                        }).toList(), 
+
+                        onChanged: (String? value) {
+                          setState(() {
+                            atracaoId = value;
+                          });
+                        },
+
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Preencha o campo atracaoId';
+                            return 'Selecione uma atração';
                           }
-                      
+
                           return null;
                         }
                       ),
@@ -142,10 +172,13 @@ class _CadastrarObraPageState extends State<CadastrarObraPage> {
                           final titulo = _tituloController.text.trim();
                           final autor = (_autorController.text.trim().isNotEmpty) ? _autorController.text.trim() : "desconhecido"; 
                           final descricao = _descricaoController.text.trim();
-                          final atracaoId = _atracaoIdController.text.trim();
+                          //
+                          var resultado = false;
 
-                          final resultado = await cadastrarObraFunction(title: titulo, description: descricao, autor: autor, atracaoId: atracaoId);
-
+                          if (atracaoId != null) {
+                            resultado = await cadastrarObraFunction(title: titulo, description: descricao, autor: autor, atracaoId: atracaoId!);
+                          }
+                        
                           if (resultado == true) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -197,5 +230,17 @@ class _CadastrarObraPageState extends State<CadastrarObraPage> {
         ),
       ),
     );
+  }
+
+  Future<void> carregarAtracoes() async {
+    try {
+      final dados = await buscarAtracoesFunction();
+
+      setState(() {
+        atracoes = dados;
+      });
+    } catch(e) {
+      print(e);
+    }
   }
 }
