@@ -1,6 +1,5 @@
 import 'package:acervus_app/functions/atracao/buscar_atracao_function.dart';
 import 'package:acervus_app/models/atracao_model.dart';
-import 'package:acervus_app/models/obra_model.dart';
 import 'package:flutter/material.dart';
 
 class BuscarAtracaoPage extends StatefulWidget {

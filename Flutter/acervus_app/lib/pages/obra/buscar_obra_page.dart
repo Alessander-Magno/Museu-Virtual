@@ -1,14 +1,35 @@
+import 'package:acervus_app/functions/atracao/buscar_atracao_function.dart';
 import 'package:flutter/material.dart';
 
 import 'package:acervus_app/models/obra_model.dart';
 
-class BuscarObraPage extends StatelessWidget {
+class BuscarObraPage extends StatefulWidget {
   final ObraModel obra;
   
   const BuscarObraPage({super.key, required this.obra});
 
   @override
+  State<BuscarObraPage> createState() => _BuscarObraPageState();
+}
+
+class _BuscarObraPageState extends State<BuscarObraPage> {
+  String? nomeAtracao;
+
+  @override
+  void initState() {
+    super.initState();
+    carregarNomeAtracao(widget.obra.atracaoId);
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    if (nomeAtracao == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -22,7 +43,7 @@ class BuscarObraPage extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              obra.title,
+              widget.obra.title,
               style: TextStyle(
                 fontSize: 62,
                 fontWeight: FontWeight.bold,
@@ -43,31 +64,31 @@ class BuscarObraPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "ID: ${obra.id}",
+                    "ID: ${widget.obra.id}",
                     style: TextStyle(
                       fontSize: 22,
                     ),
                   ),
                   Text(
-                    "Titulo: ${obra.title}",
+                    "Titulo: ${widget.obra.title}",
                     style: TextStyle(
                       fontSize: 22,
                     ),
                   ),
                    Text(
-                    "Autor: ${obra.autor}",
+                    "Autor: ${widget.obra.autor}",
                     style: TextStyle(
                       fontSize: 22,
                     ),
                   ),
                   Text(
-                    "Descrição: ${obra.description}",
+                    "Descrição: ${widget.obra.description}",
                     style: TextStyle(
                       fontSize: 22,
                     ),
                   ),
                   Text(
-                    "AtracaoId: ${obra.atracaoId}",
+                    "Atração vinculada: $nomeAtracao",
                     style: TextStyle(
                       fontSize: 22,
                     ),
@@ -79,5 +100,17 @@ class BuscarObraPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> carregarNomeAtracao(String id) async {
+    try {
+      final atracao = await buscarAtracaoFunction(id);
+
+      setState(() {
+        nomeAtracao = atracao.nome;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
