@@ -10,12 +10,7 @@ Future<AtracaoModel> buscarAtracaoFunction (String id) async {
   if (response.statusCode == 200) {
     final dado = jsonDecode(response.body);
 
-    return AtracaoModel(
-      id: dado['id'], 
-      nome: dado['nome'], 
-      description: dado['description'], 
-      disponibilidade: dado['disponibilidade']
-    );
+    return AtracaoModel.fromJson(dado);
   } else {
     throw Exception("Erro ao buscar dados");
   }

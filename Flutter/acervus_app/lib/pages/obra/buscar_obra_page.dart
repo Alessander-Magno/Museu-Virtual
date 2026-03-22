@@ -29,6 +29,7 @@ class BuscarObraPage extends StatelessWidget {
               ),
             ),
             Container(
+              width: 700,
               margin: EdgeInsets.all(20),
               padding: EdgeInsets.symmetric(horizontal: 18, vertical: 18),
               decoration: BoxDecoration(
@@ -44,31 +45,31 @@ class BuscarObraPage extends StatelessWidget {
                   Text(
                     "ID: ${obra.id}",
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 22,
                     ),
                   ),
                   Text(
                     "Titulo: ${obra.title}",
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 22,
                     ),
                   ),
                    Text(
                     "Autor: ${obra.autor}",
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 22,
                     ),
                   ),
                   Text(
                     "Descrição: ${obra.description}",
                     style: TextStyle(
-                      fontSize: 25
+                      fontSize: 22,
                     ),
                   ),
                   Text(
                     "AtracaoId: ${obra.atracaoId}",
                     style: TextStyle(
-                      fontSize: 25
+                      fontSize: 22,
                     ),
                   ),
                 ]  

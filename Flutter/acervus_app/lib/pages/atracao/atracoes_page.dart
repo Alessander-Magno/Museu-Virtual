@@ -169,7 +169,7 @@ class _AtracoesPageState extends State<AtracoesPage> {
                           IconButton(
                             icon: Icon(Icons.search),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarAtracaoPage(atracao: atracao)));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarAtracaoPage(id: atracao.id)));
                             }, 
                           ),
                           SizedBox(width: 10,),
