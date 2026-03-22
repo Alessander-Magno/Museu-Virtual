@@ -50,20 +50,20 @@ class _BuscarAtracaoPageState extends State<BuscarAtracaoPage> {
           // portanto ao fazer (obras.isNotEmpty && index == -1) e dar um return o ListView iria 'ignorar' o elemento obra[0]
           // por isso fiz: index-- e obras.length + 1
 
-          if (obras.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(46.0),
-                child: SizedBox(
-                  width: 60,
-                  height: 60,
-                  child: Text("Sem obras vinculadas"),
-                ),
-              ),
-            );
-          }
+          // if (obras.isEmpty) {
+          //   return Center(
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(46.0),
+          //       child: SizedBox(
+          //         width: 60,
+          //         height: 60,
+          //         child: Text("Sem obras vinculadas"),
+          //       ),
+          //     ),
+          //   );
+          // }
       
-          if (obras.isNotEmpty && index == -1) {
+          if ((obras.isNotEmpty && index == -1) || obras.isEmpty) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
