@@ -15,26 +15,61 @@ class AtracoesPage extends StatefulWidget {
 
 class _AtracoesPageState extends State<AtracoesPage> {
   late Future<List<AtracaoModel>> futureAtracoes;
+  late Future<List<AtracaoModel>> atracoesFiltradas;
+
+  bool aparecaBusca =  false;
 
   @override
   void initState() {
     super.initState();
     futureAtracoes = buscarAtracoesFunction();
+    atracoesFiltradas = futureAtracoes;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Atrações',
-          style: TextStyle(
-            fontSize: 25,
-          ),
+        title: (aparecaBusca 
+        ? TextFormField(
+            decoration: InputDecoration(
+              hintText: 'Buscar',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10)
+              ),
+            ),
+            onChanged: (texto) {
+              setState(() {
+                atracoesFiltradas = futureAtracoes.where(
+                  (atracao) =>
+                  atracao.nome.toLowerCase().contains(texto.toLowerCase()).toList();
+                );
+              });
+            },
+          )
+        : (Text(
+            'Atrações',
+            style: TextStyle(
+              fontSize: 25,
+            ),
+          )) 
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 32),
+            child: IconButton(onPressed: 
+              () {
+                setState(() {
+                  aparecaBusca = !aparecaBusca;
+                });
+              }, 
+              icon: Icon(aparecaBusca ? Icons.close : Icons.search),
+            ),
+          )
+        ],
       ),
       body: FutureBuilder(
-        future: futureAtracoes, 
+        future: atracoesFiltradas, 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
