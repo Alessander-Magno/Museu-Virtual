@@ -144,8 +144,12 @@ class _AtracoesPageState extends State<AtracoesPage> {
                             final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarAtracaoPage()));
 
                             if (resultado == true) {
+                              final novasAtracoes = await buscarAtracoesFunction();
+
                               setState(() {
-                                futureAtracoes = buscarAtracoesFunction();
+                                atracoesCompletas = novasAtracoes;
+                                atracoesFiltradas = atracoesCompletas;
+                                buscaController.clear();
                               });
                             }
                           },
@@ -243,8 +247,12 @@ class _AtracoesPageState extends State<AtracoesPage> {
                               final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarAtracaoPage(atracao: atracao)));
 
                               if (resultado == true) {
+                                final novasAtracoes = await buscarAtracoesFunction();
+
                                 setState(() {
-                                  futureAtracoes = buscarAtracoesFunction();
+                                  atracoesCompletas = novasAtracoes;
+                                  atracoesFiltradas = atracoesCompletas;
+                                  buscaController.clear();
                                 });
                               }
                             }, 
@@ -268,7 +276,7 @@ class _AtracoesPageState extends State<AtracoesPage> {
       setState(() {
         atracoesFiltradas = atracoesCompletas.where(
           (atracao) =>
-          atracao.nome.toLowerCase().contains(texto.toLowerCase())
+          atracao.nome.toLowerCase().contains(texto)
         ).toList();
       });
   }

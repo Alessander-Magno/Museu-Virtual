@@ -15,6 +15,12 @@ class ObrasPage extends StatefulWidget {
 
 class _ObrasPageState extends State<ObrasPage> {
   late Future<List<ObraModel>> futureObras;
+  // 
+  List<ObraModel> obrasCompletas = [];
+  List<ObraModel> obrasFiltradas = [];
+  //
+  TextEditingController buscaController = TextEditingController();
+
 
   @override
   void initState() {
@@ -26,12 +32,34 @@ class _ObrasPageState extends State<ObrasPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Obras',
-          style: TextStyle(
-            fontSize: 25,
-          ),
+        title: (TextFormField(
+            controller: buscaController,
+            decoration: InputDecoration(
+              hintText: 'Buscar por obras',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10)
+              ),
+            ),
+          )
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 32),
+            child: IconButton(
+              onPressed: 
+              () {
+                if (buscaController.text.isEmpty) {
+                  setState(() {
+                    obrasFiltradas = obrasCompletas;
+                  });
+                } else {
+                  mudarEstadoUI(buscaController.text);
+                }
+              }, 
+              icon: Icon(Icons.search),
+            ),
+          )
+        ],
       ),
       body: FutureBuilder(
         future: futureObras, 
@@ -53,16 +81,19 @@ class _ObrasPageState extends State<ObrasPage> {
             );
           }
 
-          final obras = snapshot.data!;
+          if (obrasCompletas.isEmpty) {
+            obrasCompletas = snapshot.data!;
+            obrasFiltradas = obrasCompletas;
+          }
 
-          if (obras.isEmpty) {
+          if (obrasFiltradas.isEmpty) {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(46.0),
                 child: Column(
                   children: [
                     Text(
-                      "Sem obras cadastradas no momento",
+                     (obrasCompletas.isEmpty ? "Sem obras cadastradas no momento" : "Nenhuma obras cadastrada com esse nome"),
                       style: TextStyle(
                         fontFamily: 'Playfair',
                         fontSize: 32,
@@ -78,8 +109,12 @@ class _ObrasPageState extends State<ObrasPage> {
                           final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarObraPage()));
                     
                           if (resultado == true) {
+                            final novasObras = await buscarObrasFunction();
+
                             setState(() {
-                              futureObras = buscarObrasFunction();
+                              obrasCompletas = novasObras;
+                              obrasFiltradas = obrasCompletas;
+                              buscaController.clear();
                             });
                           }
                         },
@@ -96,9 +131,9 @@ class _ObrasPageState extends State<ObrasPage> {
             );
           } else {
             return ListView.builder(
-              itemCount: obras.length + 1,
+              itemCount: obrasFiltradas.length + 1,
               itemBuilder: (context, index) {
-                if (index == obras.length) {
+                if (index == obrasFiltradas.length) {
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.all(46.0),
@@ -110,8 +145,12 @@ class _ObrasPageState extends State<ObrasPage> {
                             final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarObraPage()));
 
                             if (resultado == true) {
+                              final novasObras = await buscarObrasFunction();
+
                               setState(() {
-                                futureObras = buscarObrasFunction();
+                                obrasCompletas = novasObras;
+                                obrasFiltradas = obrasCompletas;
+                                buscaController.clear();
                               });
                             }
                           },
@@ -126,7 +165,7 @@ class _ObrasPageState extends State<ObrasPage> {
                   );
                 }
 
-                final obra = obras[index];
+                final obra = obrasFiltradas[index];
 
                 return Center(
                   child: Container(
@@ -210,8 +249,12 @@ class _ObrasPageState extends State<ObrasPage> {
                               final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarObraPage(obra: obra)));
 
                               if (resultado == true) {
+                                final novasObras = await buscarObrasFunction();
+
                                 setState(() {
-                                  futureObras = buscarObrasFunction();
+                                  obrasCompletas = novasObras;
+                                  obrasFiltradas = obrasCompletas;
+                                  buscaController.clear();
                                 });
                               }
                             }, 
@@ -227,5 +270,16 @@ class _ObrasPageState extends State<ObrasPage> {
         }
       ),
     );
+  }
+
+   void mudarEstadoUI(String texto) {
+    texto = texto.toLowerCase();
+    
+      setState(() {
+        obrasFiltradas = obrasCompletas.where(
+          (obra) =>
+          obra.title.toLowerCase().contains(texto)
+        ).toList();
+      });
   }
 }
