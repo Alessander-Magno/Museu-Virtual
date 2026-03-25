@@ -15,61 +15,53 @@ class AtracoesPage extends StatefulWidget {
 
 class _AtracoesPageState extends State<AtracoesPage> {
   late Future<List<AtracaoModel>> futureAtracoes;
-  late Future<List<AtracaoModel>> atracoesFiltradas;
-
-  bool aparecaBusca =  false;
+  //
+  List<AtracaoModel> atracoesCompletas = [];
+  List<AtracaoModel> atracoesFiltradas = [];
+  //
+  TextEditingController buscaController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     futureAtracoes = buscarAtracoesFunction();
-    atracoesFiltradas = futureAtracoes;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: (aparecaBusca 
-        ? TextFormField(
+        title: (TextFormField(
+            controller: buscaController,
             decoration: InputDecoration(
-              hintText: 'Buscar',
+              hintText: 'Buscar por atrações',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10)
               ),
             ),
-            onChanged: (texto) {
-              setState(() {
-                atracoesFiltradas = futureAtracoes.where(
-                  (atracao) =>
-                  atracao.nome.toLowerCase().contains(texto.toLowerCase()).toList();
-                );
-              });
-            },
           )
-        : (Text(
-            'Atrações',
-            style: TextStyle(
-              fontSize: 25,
-            ),
-          )) 
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 32),
-            child: IconButton(onPressed: 
+            child: IconButton(
+              onPressed: 
               () {
-                setState(() {
-                  aparecaBusca = !aparecaBusca;
-                });
+                if (buscaController.text.isEmpty) {
+                  setState(() {
+                    atracoesFiltradas = atracoesCompletas;
+                  });
+                } else {
+                  mudarEstadoUI(buscaController.text);
+                }
               }, 
-              icon: Icon(aparecaBusca ? Icons.close : Icons.search),
+              icon: Icon(Icons.search),
             ),
           )
         ],
       ),
-      body: FutureBuilder(
-        future: atracoesFiltradas, 
+      body: FutureBuilder<List<AtracaoModel>>(
+        future: futureAtracoes, 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -88,16 +80,19 @@ class _AtracoesPageState extends State<AtracoesPage> {
             );
           }
 
-          final atracoes = snapshot.data!;
+          if (atracoesCompletas.isEmpty) {
+            atracoesCompletas = snapshot.data!;
+            atracoesFiltradas = atracoesCompletas;
+          }
 
-          if (atracoes.isEmpty) {
+          if (atracoesFiltradas.isEmpty) {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(46.0),
                 child: Column(
                   children: [
-                    Text(
-                      "Sem atrações cadastradas no momento",
+                    Text( 
+                      (atracoesCompletas.isEmpty ? "Sem atrações cadastradas no momento" : "Nenhuma atração cadastrada com esse nome"),
                       style: TextStyle(
                         fontFamily: 'Playfair',
                         fontSize: 32,
@@ -113,8 +108,12 @@ class _AtracoesPageState extends State<AtracoesPage> {
                           final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarAtracaoPage()));
                     
                           if (resultado == true) {
+                            final novasAtracoes = await buscarAtracoesFunction();
+
                             setState(() {
-                              futureAtracoes = buscarAtracoesFunction();
+                              atracoesCompletas = novasAtracoes;
+                              atracoesFiltradas = atracoesCompletas;
+                              buscaController.clear();
                             });
                           }
                         },
@@ -131,9 +130,9 @@ class _AtracoesPageState extends State<AtracoesPage> {
             );
           } else {
             return ListView.builder(
-              itemCount: atracoes.length + 1,
+              itemCount: atracoesFiltradas.length + 1,
               itemBuilder: (context, index) {
-                if (index == atracoes.length) {
+                if (index == atracoesFiltradas.length) {
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.all(46.0),
@@ -161,7 +160,7 @@ class _AtracoesPageState extends State<AtracoesPage> {
                   );
                 }
 
-                final atracao = atracoes[index];
+                final atracao = atracoesFiltradas[index];
 
                 return Center(
                   child: Container(
@@ -261,5 +260,16 @@ class _AtracoesPageState extends State<AtracoesPage> {
         }
       ),
     );
+  }
+
+  void mudarEstadoUI(String texto) {
+    texto = texto.toLowerCase();
+    
+      setState(() {
+        atracoesFiltradas = atracoesCompletas.where(
+          (atracao) =>
+          atracao.nome.toLowerCase().contains(texto.toLowerCase())
+        ).toList();
+      });
   }
 }
