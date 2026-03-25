@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:acervus_app/models/atracao_model.dart';
 import 'package:acervus_app/pages/atracao/buscar_atracao_page.dart';
-import 'package:acervus_app/pages/atracao/cadastrar_atracao_page.dart';
-import 'package:acervus_app/pages/atracao/atualizar_atracao_page.dart';
-import 'package:acervus_app/functions/atracao/deletar_atracao_function.dart';
 import 'package:acervus_app/functions/atracao/buscar_atracoes_function.dart';
 
 class AtracoesPage extends StatefulWidget {
@@ -100,69 +97,14 @@ class _AtracoesPageState extends State<AtracoesPage> {
                       ),
                     ),
                     SizedBox(height: 30,),
-                    SizedBox(
-                      width: 265,
-                      height: 60,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarAtracaoPage()));
-                    
-                          if (resultado == true) {
-                            final novasAtracoes = await buscarAtracoesFunction();
-
-                            setState(() {
-                              atracoesCompletas = novasAtracoes;
-                              atracoesFiltradas = atracoesCompletas;
-                              buscaController.clear();
-                            });
-                          }
-                        },
-                        child: Text('Cadastrar Atração',
-                          style: TextStyle(
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
             );
           } else {
             return ListView.builder(
-              itemCount: atracoesFiltradas.length + 1,
+              itemCount: atracoesFiltradas.length,
               itemBuilder: (context, index) {
-                if (index == atracoesFiltradas.length) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(46.0),
-                      child: SizedBox(
-                        width: 265,
-                        height: 60,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarAtracaoPage()));
-
-                            if (resultado == true) {
-                              final novasAtracoes = await buscarAtracoesFunction();
-
-                              setState(() {
-                                atracoesCompletas = novasAtracoes;
-                                atracoesFiltradas = atracoesCompletas;
-                                buscaController.clear();
-                              });
-                            }
-                          },
-                          child: Text('Cadastrar Atração',
-                            style: TextStyle(
-                              fontSize: 22,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }
 
                 final atracao = atracoesFiltradas[index];
 
@@ -208,53 +150,6 @@ class _AtracoesPageState extends State<AtracoesPage> {
                             icon: Icon(Icons.search),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarAtracaoPage(id: atracao.id)));
-                            }, 
-                          ),
-                          SizedBox(width: 10,),
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () async {
-                              final deletado = await deletarAtracaoFunction(atracao.id);
-
-                              if (deletado) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Sucesso ao deletar atração"),
-                                    duration: Duration(seconds: 2),
-                                  )
-                                );
-
-                                Future.delayed(
-                                  Duration(seconds: 2),
-                                  () {
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AtracoesPage()));
-                                  },
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Falha ao deletar atração"),
-                                    duration: Duration(seconds: 2),
-                                  )
-                                );
-                              }
-                            }, 
-                          ),
-                          SizedBox(width: 10,),
-                          IconButton(
-                            icon: Icon(Icons.edit),
-                            onPressed: () async {
-                              final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarAtracaoPage(atracao: atracao)));
-
-                              if (resultado == true) {
-                                final novasAtracoes = await buscarAtracoesFunction();
-
-                                setState(() {
-                                  atracoesCompletas = novasAtracoes;
-                                  atracoesFiltradas = atracoesCompletas;
-                                  buscaController.clear();
-                                });
-                              }
                             }, 
                           ),
                         ],

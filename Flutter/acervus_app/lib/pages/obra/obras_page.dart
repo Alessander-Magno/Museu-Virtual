@@ -1,10 +1,7 @@
-import 'package:acervus_app/functions/obra/buscar_obras_function.dart';
-import 'package:acervus_app/models/obra_model.dart';
-import 'package:acervus_app/pages/obra/atualizar_obra_page.dart';
-import 'package:acervus_app/pages/obra/buscar_obra_page.dart';
-import 'package:acervus_app/pages/obra/cadastrar_obra_page.dart';
 import 'package:flutter/material.dart';
-import 'package:acervus_app/functions/obra/deletar_obra_function.dart';
+import 'package:acervus_app/models/obra_model.dart';
+import 'package:acervus_app/pages/obra/buscar_obra_page.dart';
+import 'package:acervus_app/functions/obra/buscar_obras_function.dart';
 
 class ObrasPage extends StatefulWidget {
   const ObrasPage({super.key});
@@ -100,70 +97,14 @@ class _ObrasPageState extends State<ObrasPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 30,),
-                    SizedBox(
-                      width: 265,
-                      height: 60,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarObraPage()));
-                    
-                          if (resultado == true) {
-                            final novasObras = await buscarObrasFunction();
-
-                            setState(() {
-                              obrasCompletas = novasObras;
-                              obrasFiltradas = obrasCompletas;
-                              buscaController.clear();
-                            });
-                          }
-                        },
-                        child: Text('Cadastrar Obra',
-                          style: TextStyle(
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
             );
           } else {
             return ListView.builder(
-              itemCount: obrasFiltradas.length + 1,
+              itemCount: obrasFiltradas.length,
               itemBuilder: (context, index) {
-                if (index == obrasFiltradas.length) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(46.0),
-                      child: SizedBox(
-                        width: 265,
-                        height: 60,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CadastrarObraPage()));
-
-                            if (resultado == true) {
-                              final novasObras = await buscarObrasFunction();
-
-                              setState(() {
-                                obrasCompletas = novasObras;
-                                obrasFiltradas = obrasCompletas;
-                                buscaController.clear();
-                              });
-                            }
-                          },
-                          child: Text('Cadastrar Obra',
-                            style: TextStyle(
-                              fontSize: 22,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }
 
                 final obra = obrasFiltradas[index];
 
@@ -210,53 +151,6 @@ class _ObrasPageState extends State<ObrasPage> {
                             icon: Icon(Icons.search),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuscarObraPage(obra: obra)));
-                            }, 
-                          ),
-                          SizedBox(width: 10,),
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () async {
-                              final deletado = await deletarObraFunction(obra.id);
-
-                              if (deletado == true) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Sucesso ao deletar obra"),
-                                    duration: Duration(seconds: 2),
-                                  )
-                                );
-
-                                Future.delayed(
-                                  Duration(seconds: 2),
-                                  () {
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ObrasPage()));
-                                  },
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Falha ao deletar obra"),
-                                    duration: Duration(seconds: 2),
-                                  )
-                                );
-                              }
-                            }, 
-                          ),
-                          SizedBox(width: 10,),
-                          IconButton(
-                            icon: Icon(Icons.edit),
-                            onPressed: () async {
-                              final resultado = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => AtualizarObraPage(obra: obra)));
-
-                              if (resultado == true) {
-                                final novasObras = await buscarObrasFunction();
-
-                                setState(() {
-                                  obrasCompletas = novasObras;
-                                  obrasFiltradas = obrasCompletas;
-                                  buscaController.clear();
-                                });
-                              }
                             }, 
                           ),
                         ],
