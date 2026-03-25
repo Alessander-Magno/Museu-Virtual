@@ -35,12 +35,6 @@ export default function ComponenteBusca( { atracoes }: any ) {
               <Link href={`/atracoes/buscar/${atracao.id}`}>
                 <Search size={'20'} height={'30'}></Search>
               </Link>
-              <Link href={`/atracoes/deletar/${atracao.id}`}>
-                <Trash2 size={'20'} height={'30'}></Trash2>
-              </Link>
-              <Link href={`/atracoes/atualizar/${atracao.id}`}>
-                <Pencil size={'20'} height={'30'}></Pencil>
-              </Link> 
             </div>
           
           </div>
@@ -50,7 +44,6 @@ export default function ComponenteBusca( { atracoes }: any ) {
 
     <div className='flex gap-4'>
       <Link href='/' className={styles.navButton}>Voltar</Link>
-      <Link href='/atracoes/cadastrar' className={styles.navButton}>Cadastrar Atração</Link>
     </div>
 
    </div>
