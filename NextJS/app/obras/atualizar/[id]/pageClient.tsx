@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import styles from '../../../css/Home.module.css';
 
-export default function AtualizarObraPageClient( { id }: { id: string } ) {
+export default function AtualizarObraPageClient( { id, titulo, author, descricao }: { id: string; titulo: string; author: string; descricao: string } ) {
     const router = useRouter();
-    const [ title, setTitle] = useState("");
-    const [ autor, setAutor ] = useState("");
-    const [ description, setDescription ] = useState("");
+    const [ title, setTitle] = useState(titulo);
+    const [ autor, setAutor ] = useState(author);
+    const [ description, setDescription ] = useState(descricao);
 
     async function atualizarObra ( e: any ) {
         const regex = /^[a-zA-ZÀ-ÿ\s]+$/;

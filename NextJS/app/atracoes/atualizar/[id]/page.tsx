@@ -30,7 +30,7 @@ export default async function atualizarAtracaoPageServer( Params: Params ) {
 
         </div>
 
-        <AtualizarAtracaoPageClient id={ id } />
+        <AtualizarAtracaoPageClient id={ id } name={ atracao.nome } descricao={ atracao.description} />
         
 
     </div>

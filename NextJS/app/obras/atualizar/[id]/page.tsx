@@ -30,7 +30,7 @@ export default async function atualizarObraPageServer( Params: Params ) {
 
         </div>
 
-        <AtualizarObraPageClient id={ id } />     
+        <AtualizarObraPageClient id={ id } titulo={ obra.title } author={ obra.autor } descricao={ obra.description } />     
 
     </div>
   );

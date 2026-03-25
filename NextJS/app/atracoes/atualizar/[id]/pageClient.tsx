@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import styles from '../../../css/Home.module.css';
 
-export default function AtualizarAtracaoPageClient( { id }: { id: string } ) {
+export default function AtualizarAtracaoPageClient( { id, name, descricao,  }: { id: string;  name: string; descricao: string }) {
     const router = useRouter();
-    const [ nome, setNome] = useState("");
-    const [ description, setDescription ] = useState("");
+    const [ nome, setNome] = useState(name);
+    const [ description, setDescription ] = useState(descricao);
 
     async function atualizarAtracao ( e: any ) {
         const regex = /^[a-zA-ZÀ-ÿ\s]+$/;
